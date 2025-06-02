@@ -86,7 +86,7 @@
           <li class="nav-item dropdown user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
               <img
-                src=""
+                src="{{ asset('assets/img/'. $data['foto']) }}"
                 class="user-image rounded-circle shadow"
                 alt="User Image" />
             </a>
@@ -94,11 +94,11 @@
               <!--begin::User Image-->
               <li class="user-header text-bg-primary">
                 <img
-                  src=""
+                  src="{{ asset('assets/img/'. $data['foto']) }}"
                   class="rounded-circle shadow"
                   alt="User Image" />
                 <p>
-                  
+                  {{ $data['nama'] }}
                 </p>
               </li>
               <!--end::User Image-->
