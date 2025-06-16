@@ -16,7 +16,7 @@ class MahasiswaController extends Controller
         $data = ['nama' => "puteri", 'foto' => 'avatar2.png'];
         $mahasiswa = Mahasiswa::with('prodi')->get();
         //dd($mahasiswa);
-        return view('mahasiswa', compact('data', 'mahasiswa'));
+        return view('mahasiswa.index', compact('data', 'mahasiswa'));
     }
 
     /**
@@ -25,6 +25,8 @@ class MahasiswaController extends Controller
     public function create()
     {
         //
+        $data = ['nama' => "puteri", 'foto' => 'avatar2.png'];
+        return view('mahasiswa.create', compact('data'));
     }
 
     /**

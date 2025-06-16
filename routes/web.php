@@ -17,3 +17,4 @@ use App\Http\Controllers\MahasiswaController;
 
 Route::get('/', [DashboardController::class, 'index']);
 Route::get('/mahasiswa', [MahasiswaController::class, 'index']);
+Route::get('/mahasiswa/create', [MahasiswaController::class, 'create']);
