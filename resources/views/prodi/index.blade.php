@@ -44,12 +44,9 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Nim</th>
-                                        <th>Nama</th>
-                                        <th>tanggal_lahir</th>
-                                        <th>Telepon</th>
-                                        <th>email</th>
-                                        <th>prodi</th>
+                                        <th>Nama Prodi</th>
+                                        <th>Nama Kaprodi</th>
+                                        <th>Jurusan</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -59,13 +56,10 @@
                                     @foreach ($mahasiswa as $m)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $m->nim }}</td>
                                             <td>{{ $m->nama }}</td>
-                                            <td>{{ $m->tanggal_lahir }}</td>
-                                            <td>{{ $m->telp }}</td>
-                                            <td>{{ $m->email }}</td>
-                                            <td>{{ $m->prodi->nama }}</td>
-                                            <td><a href="{{ url("mahasiswa/$m->nim") }}"
+                                            <td>{{ $m->kaprodi }}</td>
+                                            <td>{{ $m->jurusan }}</td>
+                                            <td><a href="{{ url("prodi/$p->nim") }}"
                                                 class="btn btn-warning">Edit</a> 
                                                 <form action="{{ url("mahasiswa/$m->nim") }}" method="post"
                                                     class="d-inline">

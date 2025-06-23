@@ -14,7 +14,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="index.php">Data Mahasiswa</a></li>
+                        <li class="breadcrumb-item"><a href="index.php">Data Prodi</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Tambah</li>
                     </ol>
                 </div>
@@ -33,14 +33,14 @@
                 <div class="col-md-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Data Mahasiswa</h3>
+                            <h3 class="card-title">Data Prodi</h3>
                         </div>
                         <!-- /.card-header -->
-                        <form action="{{ url('mahasiswa') }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ url('prodi') }}" method="post" enctype="multipart/form-data">
                             @csrf 
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="nim" class="form-label">NIM</label>
+                                    <label for="nim" class="form-label">Nama</label>
                                     <input type="text" name="nim" id="nim" 
                                         class="form-control @error('nim') is-invalid @enderror">
                                     @error('nim')
@@ -114,7 +114,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer">
-                                    <a href="index.php" class="btn btn-warning">Kembali</a>
+                                    <a href="{{ url('prodi') }}" class="btn btn-warning">Kembali</a>
                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                 </div>
 
