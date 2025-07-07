@@ -14,6 +14,11 @@ class Prodi extends Model
     public $incrementing = true;
     protected $keyType = 'int'; 
 
+    public function mahasiswa()
+    {
+        return $this->hasMany(Mahasiswa::class, 'id_prodi');
+    }
+    
     protected $fillable = [
         'nama',
         'kaprodi',

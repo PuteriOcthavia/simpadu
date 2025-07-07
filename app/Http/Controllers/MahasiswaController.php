@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Prodi;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -42,20 +43,29 @@ class MahasiswaController extends Controller
                 'nim' => 'required|unique:mahasiswa|max:10',
                 'password' => 'required',
                 'nama' => 'required|max:100',
-                'tanggal_lahir' => 'required',
+                'tanggal_lahir' => 'required|date',
                 'telp' => 'required|max:20',
-                'email' => 'required|max:100',
-                'foto' => 'image|file|max:2048'
+                'email' => 'required|unique:mahasiswa|max:100',
+                'foto' => 'image|file|max:2048',
+                'id_prodi' => 'required|exists:prodi,id'
             ],
             [
                 'nim.required' => 'NIM harus diisi',
                 'nim.unique' => 'NIM sudah terdaftar',
                 'nim.max' => 'NIM maksimal 10 karakter',
                 'password.required' => 'Password wajib diisi',
+                'password.min' => 'Password minimal 6 karakter',
                 'nama.required' => 'Nama wajib diisi',
                 'tanggal_lahir.required' => 'Tanggal Lahir wajib diisi',
+                'tanggal_lahir.date' => 'Format Tanggal Lahir tidak valid',
                 'telp.required' => 'Telepon wajib diisi',
                 'email.required' => 'Email wajib diisi',
+                'email.email' => 'Format Email tidak valid',
+                'email.unique' => 'Email sudah terdaftar',
+                'foto.image' => 'File harus berupa gambar',
+                'foto.max' => 'Ukuran gambar maksimal 2MB',
+                'id_prodi.required' => 'Prodi wajib dipilih',
+                'id_prodi.exists' => 'Prodi tidak ditemukan',
             ]
         );
         if ($request->file('foto')) {
@@ -91,13 +101,16 @@ class MahasiswaController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $mahasiswa = Mahasiswa::findOrFail($id);
+        
         $validateData = $request->validate(
             [
                 'nama' => 'required|max:100',
-                'tanggal_lahir' => 'required',
+                'tanggal_lahir' => 'required|date',
                 'telp' => 'required|max:20',
-                'email' => 'required|max:100',
-                'foto' => 'image|file|max:2048'
+                'email' => 'required|email|max:100',
+                'foto' => 'image|file|max:2048',
+                'id_prodi' => 'required|exists:prodi,id'
             ],
             [
                 'password.required' => 'Password wajib diisi',
@@ -107,7 +120,7 @@ class MahasiswaController extends Controller
                 'email.required' => 'Email wajib diisi',
             ]
         );
-        $mahasiswa = Mahasiswa::find($id);
+        $mahasiswa->update($validateData);
         if ($request->file('foto')) {
             if ($mahasiswa->foto) {
                 Storage::delete($mahasiswa->foto);
@@ -125,8 +138,17 @@ class MahasiswaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+     public function destroy($nim)
     {
-        
+        $mahasiswa = Mahasiswa::where('nim', $nim)->firstOrFail();
+
+        if ($mahasiswa->foto && Storage::exists('public/foto/' . $mahasiswa->foto)) {
+            Storage::delete('public/foto/' . $mahasiswa->foto);
+        }
+
+        $mahasiswa->delete();
+
+        return redirect()->route('mahasiswa.index')->with('success', 'Data mahasiswa berhasil dihapus.');
     }
+
 }

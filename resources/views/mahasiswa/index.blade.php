@@ -38,6 +38,9 @@
                                 <a href="mahasiswa/create" class="btn btn-primary">Tambah</a>
                             </div>
                         </div>
+                        @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                        @endif
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table class="table table-bordered">
@@ -54,8 +57,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-
                                     @foreach ($mahasiswa as $m)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
@@ -65,18 +66,16 @@
                                             <td>{{ $m->telp }}</td>
                                             <td>{{ $m->email }}</td>
                                             <td>{{ $m->prodi->nama }}</td>
-                                            <td><a href="{{ url("mahasiswa/$m->nim") }}"
+                                            <td><img src="{{ asset('storage/' . $m->foto) }}" width="100px" height="100px" /></td>
+                                            <td><a href="{{ url("mahasiswa/{$m->nim}/edit") }}"
                                                 class="btn btn-warning">Edit</a> 
-                                                <form action="{{ url("mahasiswa/$m->nim") }}" method="post"
-                                                    class="d-inline">
-                                                    @method('delete')
+                                                <form action="{{ route('mahasiswa.destroy', $m->nim) }}" method="POST" class="d-inline">
                                                     @csrf
-                                                    <button class="btn btn-danger"
-                                                    onclick="return confirm('Yakin Ingin Menghapus Kenangan Ini?')">Hapus</button>
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
                                                 </form>
                                         </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </div>

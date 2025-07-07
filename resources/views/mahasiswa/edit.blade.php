@@ -9,13 +9,13 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="col-sm-6">
-                    <h3 class="mb-0">DATA PRODI</h3>
+                    <h3 class="mb-0">EDIT DATA MAHASISWA</h3>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="index.php">Data Mahasiswa</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Tambah</li>
+                        <li class="breadcrumb-item"><a href="{{ url('mahasiswa') }}">Data Mahasiswa</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit</li>
                     </ol>
                 </div>
             </div>
@@ -33,14 +33,14 @@
                 <div class="col-md-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Data Mahasiswa</h3>
+                            <h3 class="card-title">Edit Mahasiswa</h3>
                         </div>
                         <!-- /.card-header -->
-                        <form action="{{ url("mahasiswa/$mahasiswa->nim") }}" method="post" enctype="multipart/form-data">
+                        <form action="{{ url("mahasiswa/{$mahasiswa->nim}") }}" method="post" enctype="multipart/form-data">
                             @method('put')
                             @csrf 
                             <div class="card-body">
-                                <div class="form-group">
+                                <div class="form-group mb-3">
                                     <label for="nim" class="form-label">NIM</label>
                                     <input type="text" name="nim" id="nim" 
                                         class="form-control @error('nim') is-invalid @enderror"
@@ -111,8 +111,9 @@
                                         <select class="form-select" name="id_prodi" id="id_prodi">
                                             @foreach ($prodi as $p);   
                                                 <option value="{{ $p->id }}" 
-                                                    {{ $p->id ==$mahasiswa->id_prodi ? 'SELECTED' : '' }}>
-                                                    {{ $p->nama }}</option>
+                                                    {{ old('id_prodi', $mahasiswa->id_prodi) == $p->id ? 'selected' : '' }}>
+                                                    {{ $p->nama }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>

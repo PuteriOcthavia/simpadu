@@ -10,12 +10,15 @@
             <!--begin::Row-->
             <div class="row">
                 <div class="col-sm-6">
-                    <h3 class="mb-0">EDIT DATA PRODI</h3>
+                    <h3 class="mb-0">DATA PRODI</h3>
                 </div>
+                @if(session('success'))
+                   <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+                        <li class="breadcrumb-item active" aria-current="page">Prodi</li>
                     </ol>
                 </div>
             </div>
@@ -35,11 +38,17 @@
                         <div class="card-header">
                             <h3 class="card-title">DATA PRODI</h3>
                             <div class="card-tools">
-                                <a href="mahasiswa/create" class="btn btn-primary">Tambah</a>
+                                <a href="{{ url('prodi/create') }}" class="btn btn-primary">Tambah</a>
                             </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                            @if (session('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session('success') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endif
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -59,15 +68,14 @@
                                             <td>{{ $p->nama }}</td>
                                             <td>{{ $p->kaprodi }}</td>
                                             <td>{{ $p->jurusan }}</td>
-                                            <td><a href="{{ url("prodi/$p->id") }}"
+                                            <td><a href="{{ url("prodi/{$p->id}/edit") }}"
                                                 class="btn btn-warning">Edit</a> 
-                                                <form action="{{ url("prodi/$p->id") }}" method="post"
-                                                    class="d-inline">
-                                                    @method('delete')
-                                                    @csrf
-                                                    <button class="btn btn-danger"
-                                                    onclick="return confirm('Yakin Ingin Menghapus Kenangan Ini?')">Hapus</button>
-                                                </form>
+                                            <form action="{{ route('prodi.destroy', $p->id) }}" method="POST" class="d-inline" 
+                                                onsubmit="return confirm('Yakin ingin menghapus Data ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="btn btn-danger btn-sm">Hapus</button>
+                                            </form>
                                         </tr>
                                     @endforeach
 

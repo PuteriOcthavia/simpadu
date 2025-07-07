@@ -23,7 +23,8 @@ class ProdiController extends Controller
     public function create()
     {
         $data = ['nama' => "puteri", 'foto' => 'avatar2.png'];
-        return view('prodi.create', compact('data'));
+        $prodi = Prodi::all();
+        return view('prodi.create', compact('data', 'prodi'));
     }
     
 
@@ -81,16 +82,18 @@ class ProdiController extends Controller
             ] );
 
         $prodi->update($validateData);
-        return redirect('/prodi')->with('succes', 'Data Prodi berhasil dihapus.');
+        return redirect('/prodi')->with('success', 'Data Prodi berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $prodi = Prodi::finfOrFail($id);
+        $prodi = Prodi::findOrFail($id);
+        $prodi->mahasiswa()->delete(); // 
         $prodi->delete();
-        return redirect('/prodi')->with('succes', 'Data Prodi berhasil dihapus.');
+
+        return redirect()->route('prodi.index')->with('success', 'Prodi dan data mahasiswa terkait berhasil dihapus.');
     }
 }
